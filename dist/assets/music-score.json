@@ -1,0 +1,18 @@
+{
+  "title": "花影入梦",
+  "bpm": 72,
+  "bars": 32,
+  "duration_seconds": 106.66666666666667,
+  "scale": "D major pentatonic",
+  "instruments": [
+    "synthesized silk-string plucks",
+    "breathy bamboo-flute voice",
+    "sparse bell overtones"
+  ],
+  "seed": 20261110,
+  "source": "scripts/generate_music.py",
+  "external_samples": false,
+  "sample_rate": 44100,
+  "peak": 0.79,
+  "rms": 0.16548963455944768
+}

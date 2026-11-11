@@ -1,0 +1,11 @@
+{
+  "name": "zanhua-garden",
+  "version": "2.1.0",
+  "private": true,
+  "description": "簪花游园 · 花影迷园 — 绢本动作解谜与原创古风配乐",
+  "scripts": {
+    "start": "node scripts/serve.cjs",
+    "test": "node checks/rules.cjs && node checks/game.cjs && node checks/music.cjs"
+  },
+  "engines": { "node": ">=18" }
+}

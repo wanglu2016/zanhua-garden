@@ -1,0 +1,5 @@
+node_modules/
+*.wav
+*.tar.gz
+.DS_Store
+__pycache__/

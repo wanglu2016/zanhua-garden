@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#eee4d2">
+  <meta name="description" content="以《簪花仕女图》为灵感的绢本动作小游戏。移步、挥扇、闪身，在九十秒里收拢一庭春色。">
+  <title>簪花游园 · 一扇春风</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="../music.css">
+</head>
+<body>
+<div class="site">
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="簪花游园首页"><span class="brand-seal">簪花</span><span>簪花游园<small>A GARDEN ON SILK</small></span></a>
+    <p class="header-poem">花有清香，扇有清风。</p>
+    <nav class="tools" aria-label="游戏设置">
+      <button id="sound" aria-pressed="true" title="音乐与音效开关"><svg viewBox="0 0 24 24"><path d="M4 10h4l5-4v12l-5-4H4zM17 8q5 4 0 8"/></svg><span>音乐开</span></button>
+      <label class="music-volume" for="music-volume"><span>乐音</span><input id="music-volume" type="range" min="0" max="100" value="55" step="5" aria-label="背景音乐音量"><output id="music-volume-value" for="music-volume">55%</output></label><button id="motion" aria-pressed="false" title="减少飘花与动作拖影"><svg viewBox="0 0 24 24"><path d="M3 8h13q6 0 3-4M3 12h17M3 16h10q6 0 3 4"/></svg><span>减少动态</span></button>
+      <button id="help" title="游园指南" aria-label="打开游园指南"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9q0-4 4-3 4 2 0 5l-1 2M12 16v1"/></svg></button>
+    </nav>
+  </header>
+
+  <main>
+    <div class="scroll-top"><span>绢 本 · 设 色</span><span>一 卷 可 游 玩 的 春 日</span><span>卷 零 一</span></div>
+    <section class="game-frame" id="frame" aria-label="簪花游园游戏区">
+      <canvas id="game" width="1440" height="810" tabindex="0" aria-label="游戏画面，按开始游园后使用方向键或 WASD 移动，J 挥扇，K 或 Shift 闪身，L 或 E 百花齐放，P 暂停。"></canvas>
+      <div class="edge edge-left"></div><div class="edge edge-right"></div>
+      <div class="game-hud" id="hud" hidden>
+        <div class="chapter-info"><span id="chapter-kicker">第一折 · 春初醒</span><h2 id="chapter-title">花间试扇</h2><div class="life" id="life" aria-label="花容五点"></div></div>
+        <div class="score-info"><span class="score-label">春 色</span><strong id="score">0000</strong><span class="timer"><span id="clock">90</span> 秒</span><button id="pause" aria-label="暂停游戏" title="暂停 · P">Ⅱ</button></div>
+      </div>
+      <div class="game-bottom" id="game-bottom" hidden><span id="objective">采花蓄意，挥扇化蝶</span><div class="energy"><span>花 意</span><div class="energy-track"><i id="energy-fill"></i></div><span id="energy-label">0 / 100</span><button id="bloom" disabled>百花齐放 <kbd>L</kbd></button></div></div>
+      <div class="combo" id="combo" hidden><strong id="combo-count">3</strong><span>连芳</span></div>
+      <div class="announcement" id="announcement" aria-live="polite"></div>
+
+      <section class="intro" id="intro">
+        <div class="intro-copy"><p class="eyebrow"><span></span> 簪 花 入 画 · 轻 动 作 游 园</p><h1>一扇春风<span>满庭花事</span></h1><p class="intro-desc">借一柄团扇，赴一场花事。<br>在流动的绢本里，接落花、逐墨蝶，<br>让一庭春色，随你的步履盛开。</p><button class="primary" id="start">开始游园 <span>→</span></button><p class="intro-note">一局九十秒 · 三折春光 · 入园后奏乐</p></div>
+        <div class="vertical-note"><span>以《簪花仕女图》为灵感</span><i>游园</i></div>
+        <div class="intro-footer"><span>移步有风，挥扇生花。</span><span id="best-intro">初入此园，春色待君。</span></div>
+      </section>
+
+      <section class="modal-layer" id="pause-layer" hidden><div class="paper-modal"><p class="eyebrow">且 住 春 光</p><h2>歇一歇，再入花间。</h2><p>园中时光已为你停留。</p><button class="primary" id="resume">继续游园 <span>→</span></button><button class="text-button" id="restart">重新开始</button></div></section>
+      <section class="modal-layer" id="result-layer" hidden><div class="paper-modal result"><p class="eyebrow" id="result-kicker">春 色 满 园</p><h2 id="result-title">一庭花事，皆入簪间。</h2><p id="result-desc">你走过的地方，都开了花。</p><div class="result-stats"><div><strong id="final-score">0</strong><span>春色</span></div><div><strong id="final-flowers">0</strong><span>拾花</span></div><div><strong id="final-butterflies">0</strong><span>化蝶</span></div><div><strong id="final-combo">0</strong><span>最长连芳</span></div></div><p id="best-result" class="best-result"></p><button class="primary" id="again">再赴花约 <span>↻</span></button><button class="text-button" id="home">回到画卷</button></div></section>
+      <section class="modal-layer" id="help-layer" hidden role="dialog" aria-modal="true" aria-labelledby="help-title"><div class="paper-modal help-modal"><button id="close-help" class="close-button" aria-label="关闭指南">×</button><p class="eyebrow">入 园 须 知</p><h2 id="help-title">扇起时，花正好。</h2><div class="guide"><p><b>移步</b><span><kbd>W A S D</kbd> / <kbd>↑ ↓ ← →</kbd>，自在穿行。</span></p><p><b>挥扇</b><span><kbd>J</kbd> / 点击画面，化去面前的墨蝶。可按住连挥。</span></p><p><b>闪身</b><span><kbd>K</kbd> / <kbd>Shift</kbd>，向移动方向轻掠，短暂避伤。</span></p><p><b>花开</b><span><kbd>L</kbd> / <kbd>E</kbd>，花意蓄满后，让满园墨蝶化为花瓣。</span></p><p><b>歇息</b><span><kbd>P</kbd> / <kbd>Esc</kbd> 暂停。触屏可用画面下方的按键。</span></p></div><p class="guide-note">靠近落花即可拾取；连续拾花、化蝶会增加连芳。<br>墨蝶近身前会显出朱色圆环，闪身躲开；五朵花容用尽则本局结束。<br>守住九十秒，走过「花间试扇」「蝶起香径」「一庭盛放」三折春光。</p><button class="primary" id="help-ok">记下了 <span>→</span></button></div></section>
+      <div class="loading" id="loading">展卷中<span>· · ·</span></div>
+    </section>
+
+    <div class="touch-controls" id="touch-controls"><div class="dpad"><button data-key="arrowup" aria-label="向上">↑</button><button data-key="arrowleft" aria-label="向左">←</button><button data-key="arrowdown" aria-label="向下">↓</button><button data-key="arrowright" aria-label="向右">→</button></div><div class="action-pad"><button data-action="dash">闪身<small>K</small></button><button data-action="attack" class="touch-attack">挥扇<small>J</small></button><button data-action="bloom">花开<small>L</small></button></div></div>
+    <div class="below-scroll"><p><span class="flower-mark">✳</span><span>轻轻移步，春风自来。</span></p><div class="key-guide"><span><kbd>WASD</kbd> 移步</span><span><kbd>J</kbd> 挥扇</span><span><kbd>K</kbd> 闪身</span><span><kbd>L</kbd> 百花齐放</span><span><kbd>P</kbd> 暂停</span></div></div>
+  </main>
+  <footer class="footer"><span>灵感取自传周昉《簪花仕女图》<i>／</i>工笔意趣 · 原创游园</span><span>愿你今日，也有簪花的心情。</span></footer>
+</div>
+<audio id="bgm" loop preload="none" aria-label="背景音乐：花影入梦"><source src="../assets/flower-dream.ogg" type="audio/ogg"><source src="../assets/flower-dream.mp3" type="audio/mpeg"></audio><script src="../music.js"></script><script src="game.js"></script>
+</body>
+</html>
